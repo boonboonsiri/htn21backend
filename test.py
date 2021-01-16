@@ -41,4 +41,4 @@ async def on_message(message):
 	print(time)
 	print("")
 
-client.run('Nzk5ODUwNjE2OTI2NTAyOTYz.YAJk7w.DvRCd9HHhjJ9SwO0sK4Nja3zvII');
+client.run('');
