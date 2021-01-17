@@ -70,7 +70,7 @@ async def on_message(message):
 	#channel = message.channel;
 	#time = message.created_at
 
-	if message.content.startswith('dasamoodAllMessage'): # command to read all previous messages
+	if message.content.startswith('Happy') or message.content.startswith('Sad'): # command to read all previous messages
 		print("HERE")
 		author = message.author #check with person who sent command
 		channels = client.get_all_channels()
