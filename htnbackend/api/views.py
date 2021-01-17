@@ -8,6 +8,7 @@ from .vader import score_words
 import json
 from django.http import HttpResponse
 
+from datetime import datetime
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
@@ -40,6 +41,15 @@ class FilterMessageByUserAPIView(generics.ListAPIView):
     def filter_queryset(self, queryset):
         user = self.kwargs["user"]
         return queryset.filter(user__iexact=user)
+
+class GetHourAPIView(generics.ListAPIView):
+    serializer_class = MessageSerializer
+    queryset = Message.objects.all()
+
+    def filter_queryset(self, queryset):
+        user = self.kwargs["user"]
+        messages =  queryset.filter(user__iexact=user)
+        return
 
 
 def pos(request, user):
