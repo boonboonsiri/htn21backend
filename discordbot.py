@@ -91,8 +91,8 @@ async def on_message(message):
 							'messages' : msg.content,
 							'date' : str(msg.created_at.date()),
 							'score' : str(0),
-							'user' : "boon1",
-							'time' : (msg.created_at.time() - timedelta(hours=5)).strftime("%H:%M:%S")
+							'user' : "boon",
+							'time' : msg.created_at.time().strftime("%H:%M:%S")
 
 						} #json data to send
 						x=requests.post(url,data = jsonData)
@@ -119,4 +119,4 @@ async def on_message(message):
 	#print(time)
 	#print("")
 
-client.run('Nzk5ODUwNjE2OTI2NTAyOTYz.YAJk7w.JPXIc0zEpVn9MkR6M9Wii6JFw5Y');
+client.run('Nzk5ODUwNjE2OTI2NTAyOTYz.YAJk7w.Yf5OBfBBXEEFrhHnDalhLRl7JKE');
