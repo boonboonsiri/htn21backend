@@ -17,7 +17,7 @@ class DaySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Day
-        fields = ['discord_user', 'date', 'day_number', 'average_score', 'word', 'time']
+        fields = ['discord_user', 'date', 'day_number', 'average_score', 'time'] # Got rid of words
     
 
 class HourSerializer(serializers.ModelSerializer):

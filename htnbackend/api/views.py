@@ -42,6 +42,52 @@ class FilterMessageByUserAPIView(generics.ListAPIView):
         user = self.kwargs["user"]
         return queryset.filter(user__iexact=user)
 
+class GetDayWeekAPIView(generics.ListAPIView):
+    serializer_class = DaySerializer 
+    queryset = Message.objects.all()
+
+    def filter_queryset(self, queryset):
+        user = "maya1" # Hardcode user probably (ALOT OF HARD CODING)
+
+        messages =  queryset.filter(user__iexact=user)
+
+        curDay = datetime.now().day 
+        
+
+        dayRet = []
+
+        for i in range(7):
+            numMessage = 0;
+            totalSum = 0;
+            for m in messages:
+                curDay =  datetime.now().day - 7 + i;
+                #nextDay = curDay - 7 + i + 1; # this will break by the end of the month
+
+                mDay = datetime.strptime(str(m.date),  '%Y-%m-%d').day
+                print(curDay)
+
+                if(mDay == curDay):
+                    numMessage += 1
+                    totalSum += m.score
+
+            #w.name = ""
+            #w.score = 0
+            if(numMessage != 0): # set for 1 so non zero
+                w = Word();
+                d = Day();
+                d.discord_user = user
+                #d.date
+                d.day_number = i
+                d.average_score = totalSum/numMessage
+                #d.words.set(w)
+                #time = models.TimeField()
+                dayRet.append(d)
+ 
+        print(dayRet)
+        return dayRet
+        
+
+
 class GetHourAPIView(generics.ListAPIView):
     serializer_class = HourSerializer
     queryset = Message.objects.all()

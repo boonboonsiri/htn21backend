@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views
-from .views import DiscordUserAPIView, DayAPIView, HourAPIView,  CreateMessageAPIView, GetHourAPIView  
+from .views import DiscordUserAPIView, DayAPIView, HourAPIView,  CreateMessageAPIView, GetHourAPIView, GetDayWeekAPIView
 from .views import FilterMessageByUserAPIView
+
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -14,6 +15,7 @@ urlpatterns = [
     path('messages/<str:user>', FilterMessageByUserAPIView.as_view()),
 
     # Boon Paths
-    path('gethour/<str:user>', GetHourAPIView.as_view())
+    path('gethour/<str:user>', GetHourAPIView.as_view()),
+    path('getdayweek/<str:user>', GetDayWeekAPIView.as_view())
     # Day, Month
 ]

@@ -11,7 +11,7 @@ class Day(models.Model):
     date = models.DateField()
     day_number = models.IntegerField()
     average_score = models.DecimalField(max_digits=5, decimal_places=2)
-    words = models.ManyToManyField(Word)
+    #words = models.ManyToManyField(Word) THis was pain
     time = models.TimeField()
 
 
