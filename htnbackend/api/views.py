@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from rest_framework import generics
 from rest_framework.views import APIView
 from .serializers import DiscordUserSerializer, DaySerializer, HourSerializer
-from .serializers import PositiveWordSerializer, NegativeWordSerializer, CreateMessageSerializer
+from .serializers import PositiveWordSerializer, NegativeWordSerializer, CreateMessageSerializer, MessageSerializer 
 from .models import DiscordUser, Word, Day, Hour, PositiveWords, NegativeWords, Message
 
 
@@ -38,3 +38,12 @@ class NegativeWordsAPIView(generics.ListAPIView):
 class CreateMessageAPIView(generics.CreateAPIView):
     serializer_class = CreateMessageSerializer
     queryset = Message.objects.all()
+
+
+class FilterMessageByUserAPIView(generics.ListAPIView):
+    serializer_class = MessageSerializer
+    queryset = Message.objects.all()
+
+    def filter_queryset(self, queryset):
+        user = self.kwargs["user"]
+        return queryset.filter(user__iexact=user)

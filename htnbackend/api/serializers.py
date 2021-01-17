@@ -40,12 +40,18 @@ class NegativeWordSerializer(serializers.ModelSerializer):
         model = Word
         fields = ['average_score', 'word']
 
+class MessageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Message
+        fields = ['messages', 'date', 'score', 'user', 'time']
+
 
 class CreateMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Message
-        fields = ['messages', 'date', 'score', 'user']
+        fields = ['messages', 'date', 'score', 'user', 'time']
 
     def create(self, validated_data):
         messages = validated_data['messages']
@@ -55,7 +61,7 @@ class CreateMessageSerializer(serializers.ModelSerializer):
         user = validated_data['user']
         time = validated_data['time']
         score = score_text(messages)['compound']
-        
+
         message = Message(messages=messages,date=date,time=time, score=score,user=user)
         message.save()
         return message

@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from .views import DiscordUserAPIView, DayAPIView, HourAPIView, PositiveWordsAPIView, NegativeWordsAPIView, CreateMessageAPIView    
+from .views import FilterMessageByUserAPIView
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -9,5 +10,6 @@ urlpatterns = [
     path('hour/', HourAPIView.as_view()),
     path('positive/', PositiveWordsAPIView.as_view()),
     path('negative/', NegativeWordsAPIView.as_view()),
-    path('createmessage', CreateMessageAPIView.as_view())
+    path('createmessage', CreateMessageAPIView.as_view()),
+    path('messages/<str:user>', FilterMessageByUserAPIView.as_view())
 ]
