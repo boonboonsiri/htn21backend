@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands, tasks
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 from discord.ext import tasks
 import os
@@ -37,8 +37,8 @@ async def getMessages():
 						'messages' : msg.content,
 						'date' : str(msg.created_at.date()),
 						'score' : str(0),
-						'user' : author,
-						'time' : msg.created_at.time().strftime("%H:%M:%S")
+						'user' : "boon1",
+						'time' : (msg.created_at.time() - timedelta(hours=5)).strftime("%H:%M:%S")
 					} #json data to send
 					requests.post(url,data = jsonData)
 		await asyncio.sleep(5)
@@ -91,8 +91,9 @@ async def on_message(message):
 							'messages' : msg.content,
 							'date' : str(msg.created_at.date()),
 							'score' : str(0),
-							'user' : "boon",
-							'time' : msg.created_at.time().strftime("%H:%M:%S")
+							'user' : "boon1",
+							'time' : (msg.created_at.time() - timedelta(hours=5)).strftime("%H:%M:%S")
+
 						} #json data to send
 						x=requests.post(url,data = jsonData)
 						print(x)
@@ -118,4 +119,4 @@ async def on_message(message):
 	#print(time)
 	#print("")
 
-client.run('Nzk5ODUwNjE2OTI2NTAyOTYz.YAJk7w.lkZY0f9FP_fQwTJnuapho-Io34k');
+client.run('Nzk5ODUwNjE2OTI2NTAyOTYz.YAJk7w.JPXIc0zEpVn9MkR6M9Wii6JFw5Y');

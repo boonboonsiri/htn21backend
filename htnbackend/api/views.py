@@ -80,14 +80,14 @@ class GetHourAPIView(generics.ListAPIView):
             w.name = ""
             w.score = 0
 
-            d.discord_user = m.user;
+            d.discord_user = user;
             d.date = str(datetime.now().date())
             d.day_number = 0;
             d.average_score = 0;
             #d.words = w;
-            d.time = mTime;
 
             if(numMessage != 0): # set for 1 so non zero
+                print(i)
                 h.hour_number = i;
                 h.average_score = totalSum/numMessage 
                 h.day = d
