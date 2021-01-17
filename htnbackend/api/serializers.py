@@ -27,18 +27,6 @@ class HourSerializer(serializers.ModelSerializer):
         fields = ['hour_number', 'average_score', 'day']
 
 
-class PositiveWordSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = PositiveWords
-        fields = ['average_score', 'word']
-
-
-class NegativeWordSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Word
-        fields = ['average_score', 'word']
 
 class MessageSerializer(serializers.ModelSerializer):
 
@@ -65,5 +53,7 @@ class CreateMessageSerializer(serializers.ModelSerializer):
         message = Message(messages=messages,date=date,time=time, score=score,user=user)
         message.save()
         return message
+
+
         
 

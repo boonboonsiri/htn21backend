@@ -2,8 +2,11 @@ from django.http import HttpResponse
 from rest_framework import generics
 from rest_framework.views import APIView
 from .serializers import DiscordUserSerializer, DaySerializer, HourSerializer
-from .serializers import PositiveWordSerializer, NegativeWordSerializer, CreateMessageSerializer, MessageSerializer 
+from .serializers import CreateMessageSerializer, MessageSerializer 
 from .models import DiscordUser, Word, Day, Hour, PositiveWords, NegativeWords, Message
+from .vader import score_words
+import json
+from django.http import HttpResponse
 
 
 def index(request):
@@ -25,16 +28,6 @@ class HourAPIView(generics.ListAPIView):
     queryset = Hour.objects.all()
 
 
-class PositiveWordsAPIView(generics.ListAPIView):
-    serializer_class = PositiveWordSerializer
-    queryset = PositiveWords.objects.all()
-
-
-class NegativeWordsAPIView(generics.ListAPIView):
-    serializer_class = NegativeWordSerializer
-    queryset = NegativeWords.objects.all()
-
-
 class CreateMessageAPIView(generics.CreateAPIView):
     serializer_class = CreateMessageSerializer
     queryset = Message.objects.all()
@@ -47,3 +40,37 @@ class FilterMessageByUserAPIView(generics.ListAPIView):
     def filter_queryset(self, queryset):
         user = self.kwargs["user"]
         return queryset.filter(user__iexact=user)
+
+
+def pos(request, user):
+    queryset = Message.objects.all().filter(user__iexact=user)
+
+    word = {}
+
+    for x in queryset:
+        lst = score_words(x.messages)
+        for y in lst:
+            if lst[y]['compound'] > 0:
+                word[y] = lst[y]['compound']
+    
+
+    return HttpResponse(json.dumps(word), content_type="application/json")
+
+
+
+
+def neg(request, user):
+    queryset = Message.objects.all().filter(user__iexact=user)
+
+    word = {}
+
+    for x in queryset:
+        lst = score_words(x.messages)
+        for y in lst:
+            if lst[y]['compound'] < 0:
+                word[y] = lst[y]['compound']
+    
+
+    return HttpResponse(json.dumps(word), content_type="application/json")
+    
+
