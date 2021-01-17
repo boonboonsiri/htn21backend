@@ -43,13 +43,62 @@ class FilterMessageByUserAPIView(generics.ListAPIView):
         return queryset.filter(user__iexact=user)
 
 class GetHourAPIView(generics.ListAPIView):
-    serializer_class = MessageSerializer
+    serializer_class = HourSerializer
     queryset = Message.objects.all()
 
     def filter_queryset(self, queryset):
         user = self.kwargs["user"]
         messages =  queryset.filter(user__iexact=user)
-        return
+        curDay = datetime.now().date()
+        hourRet = []
+        for i in range(24):
+            numMessage = 0;
+            totalSum = 0;
+            for m in messages:
+ 
+                curHour =  datetime.strptime(str(curDay) + " " + str(i), '%Y-%m-%d %H')
+                nextHour = datetime.strptime(str(curDay) + " " + str(i) + ":59" , '%Y-%m-%d %H:%M')
+
+                mDate = m.date
+                mTime = m.time
+
+                mDateTime = datetime.strptime(str(mDate) + " " + str(mTime), '%Y-%m-%d %H:%M:%S')
+
+
+                if(mDateTime >= curHour and mDateTime < nextHour):
+                    numMessage += 1
+                    totalSum += m.score
+            #word ={
+            #    "name" : "",
+            #    "score" : 0
+            #}
+            w = Word();
+            d = Day();
+            h = Hour();
+
+
+            w.name = ""
+            w.score = 0
+
+            d.discord_user = m.user;
+            d.date = str(datetime.now().date())
+            d.day_number = 0;
+            d.average_score = 0;
+            #d.words = w;
+            d.time = mTime;
+
+            if(numMessage != 0): # set for 1 so non zero
+                h.hour_number = i;
+                h.average_score = totalSum/numMessage 
+                h.day = d
+                hourRet.append(h)
+ 
+    
+        print(hourRet)
+        return hourRet
+            
+
+
 
 
 def pos(request, user):
@@ -65,7 +114,6 @@ def pos(request, user):
     
 
     return HttpResponse(json.dumps(word), content_type="application/json")
-
 
 
 
